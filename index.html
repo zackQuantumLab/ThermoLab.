@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ThermoLab — Interactive Thermodynamics Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<meta name="description" content="ThermoLab: interactive thermodynamics simulator (EN/FR/AR) - university physics project.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <button id="menuBtn" class="ghost menu" data-i18n-title="menu">☰</button>
+  <img src="assets/logo.svg" class="logo" alt="ThermoLab logo" width="38" height="38">
+  <div class="brand"><h1>THERMOLAB</h1><span data-i18n="sub"></span></div>
+  <div class="tools">
+    <label class="sr" for="spd" data-i18n="speed"></label>
+    <select id="spd" data-i18n-title="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select>
+    <label class="sr" for="lang" data-i18n="language"></label>
+    <select id="lang"><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="ar">🇲🇦 العربية</option></select>
+    <button id="themeBtn" class="ghost" data-i18n-title="theme">◐</button>
+  </div>
+</header>
+<div class="layout">
+<nav id="side">
+  <button data-view="dash" data-i18n="n_dash"></button>
+  <button data-view="gas" data-i18n="n_gas"></button>
+  <button data-view="proc" data-i18n="n_proc"></button>
+  <button data-view="carnot" data-i18n="n_carnot"></button>
+  <button data-view="cyc" data-i18n="n_cyc"></button>
+  <button data-view="pv" data-i18n="n_pv"></button>
+  <button data-view="real" data-i18n="n_real"></button>
+  <button data-view="calc" data-i18n="n_calc"></button>
+  <button data-view="about" data-i18n="n_about"></button>
+</nav>
+<main>
+<p class="tag" data-i18n="tag"></p>
+<p class="conv" data-i18n="conv"></p>
+
+<section id="v-dash">
+  <h2 data-i18n="n_dash"></h2>
+  <div class="card"><div id="dashFields" class="grid"></div>
+    <div class="fld"><label for="dGas" data-i18n="gasType"></label><select id="dGas"><option value="m" data-i18n="mono"></option><option value="d" data-i18n="di"></option></select></div>
+    <p class="eq" dir="ltr">PV = nRT</p><p class="mute" data-i18n="eqUsed"></p>
+    <div class="err" id="err_dash" role="alert" hidden></div></div>
+  <div id="dashCards" class="cards"></div>
+  <p class="mute" data-i18n="dashNote"></p>
+</section>
+
+<section id="v-gas" hidden>
+  <h2 data-i18n="n_gas"></h2>
+  <div class="card">
+    <div class="fld"><label for="gSolve" data-i18n="solve"></label>
+      <select id="gSolve"><option value="P" data-i18n="P"></option><option value="V" data-i18n="V"></option><option value="T" data-i18n="T"></option><option value="n" data-i18n="n"></option></select></div>
+    <div id="gRows" class="grid"></div>
+    <div class="err" id="err_gas" role="alert" hidden></div>
+    <div id="gOut" class="steps"></div>
+    <p class="mute" data-i18n="unitNote"></p>
+  </div>
+</section>
+
+<section id="v-proc" hidden>
+  <h2 data-i18n="n_proc"></h2>
+  <div class="two">
+    <div class="card">
+      <div class="grid">
+        <div class="fld"><label for="pType" data-i18n="pType"></label><select id="pType"><option value="iso" data-i18n="iso"></option><option value="isb" data-i18n="isb"></option><option value="isc" data-i18n="isc"></option><option value="adi" data-i18n="adi"></option><option value="pol" data-i18n="pol"></option><option value="free" data-i18n="free"></option></select></div>
+        <div class="fld"><label for="pGas" data-i18n="gasType"></label><select id="pGas"><option value="m" data-i18n="mono"></option><option value="d" data-i18n="di"></option></select></div>
+      </div>
+      <div id="pFields" class="grid"></div>
+      <div class="err" id="err_proc" role="alert" hidden></div>
+      <div class="btns"><button class="btn" data-act="pAnim" data-i18n="animate"></button><button class="btn alt" data-act="pReset" data-i18n="reset"></button></div>
+      <input type="range" id="pSeek" class="seek" min="0" max="1000" value="0" aria-label="timeline">
+      <div id="pistP"></div>
+      <div id="pOut" class="kvs"></div>
+    </div>
+    <div class="card"><div class="chartbox"><canvas id="pvS"></canvas></div><div id="pExp" class="exp"></div></div>
+  </div>
+</section>
+
+<section id="v-carnot" hidden>
+  <h2 data-i18n="n_carnot"></h2>
+  <div class="two">
+    <div class="card">
+      <div id="cFields" class="grid"></div>
+      <div class="fld"><label for="cGas" data-i18n="gasType"></label><select id="cGas"><option value="m" data-i18n="mono"></option><option value="d" data-i18n="di"></option></select></div>
+      <div class="err" id="err_carnot" role="alert" hidden></div>
+      <div class="btns"><button class="btn" data-act="cStart">▶ <span data-i18n="start"></span></button><button class="btn alt" data-act="cPause">⏸ <span data-i18n="pause"></span></button><button class="btn alt" data-act="cReset">↻ <span data-i18n="reset"></span></button></div>
+      <p id="stage" class="stage"></p>
+      <input type="range" id="cSeek" class="seek" min="0" max="1000" value="0" aria-label="timeline">
+      <div id="cOut" class="kvs"></div>
+    </div>
+    <div class="card"><div class="chartbox"><canvas id="cvC"></canvas></div></div>
+  </div>
+  <div class="two" style="margin-top:16px">
+    <div class="card"><h3 data-i18n="carTS"></h3><div class="chartbox"><canvas id="cvT"></canvas></div><p class="mute" data-i18n="carTSn"></p></div>
+    <div class="card"><div id="pistC"></div></div>
+  </div>
+  <div class="card">
+    <svg id="flow" class="flow paused" viewBox="0 0 420 300" role="img" aria-label="Energy flow" direction="ltr">
+      <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--acc)"/></marker></defs>
+      <rect x="110" y="8" width="200" height="44" rx="6" class="res hot"/><text x="210" y="35" text-anchor="middle" data-i18n="hot"></text>
+      <line x1="210" y1="52" x2="210" y2="108" class="arrow" marker-end="url(#ah)"/><text x="222" y="86" id="ef_QH" class="num"></text>
+      <rect x="140" y="110" width="140" height="70" rx="8" class="eng"/><text x="210" y="151" text-anchor="middle" data-i18n="engine"></text>
+      <line x1="280" y1="145" x2="390" y2="145" class="arrow" marker-end="url(#ah)"/><text x="300" y="135" id="ef_W" class="num"></text>
+      <line x1="210" y1="180" x2="210" y2="238" class="arrow" marker-end="url(#ah)"/><text x="222" y="216" id="ef_QC" class="num"></text>
+      <rect x="110" y="240" width="200" height="44" rx="6" class="res cold"/><text x="210" y="267" text-anchor="middle" data-i18n="cold"></text>
+    </svg>
+    <ul class="mute"><li data-i18n="flowQH"></li><li data-i18n="flowQC"></li><li data-i18n="flowW"></li></ul>
+    <p class="mute" data-i18n="carnotInfo"></p>
+  </div>
+</section>
+
+<section id="v-cyc" hidden>
+  <h2 data-i18n="n_cyc"></h2>
+  <div class="two">
+    <div class="card">
+      <div class="grid"><div class="fld"><label for="yType" data-i18n="cycT"></label><select id="yType"></select></div>
+        <div class="fld"><label for="yGas" data-i18n="gasType"></label><select id="yGas"><option value="m" data-i18n="mono"></option><option value="d" data-i18n="di" selected></option></select></div></div>
+      <p id="yUse" class="mute"></p><p id="yForm" class="eq" dir="ltr"></p><div id="yFields" class="grid"></div>
+      <div class="err" id="err_cyc" role="alert" hidden></div>
+      <div class="btns"><button class="btn" data-act="yStart">▶ <span data-i18n="start"></span></button><button class="btn alt" data-act="yPause">⏸ <span data-i18n="pause"></span></button><button class="btn alt" data-act="yReset">↻ <span data-i18n="reset"></span></button></div>
+      <input type="range" id="ySeek" class="seek" min="0" max="1000" value="0" aria-label="timeline"><p id="yStage" class="stage"></p><div id="yOut" class="kvs"></div>
+    </div>
+    <div class="card"><div class="chartbox"><canvas id="yPV"></canvas></div></div>
+  </div>
+  <div class="two" style="margin-top:16px"><div class="card"><div class="chartbox"><canvas id="yTS"></canvas></div></div><div class="card"><div id="pistY"></div></div></div>
+  <div class="card" style="margin-top:16px;overflow-x:auto"><table class="info" id="yTab"></table></div>
+</section>
+
+<section id="v-pv" hidden>
+  <h2 data-i18n="n_pv"></h2>
+  <div class="card">
+    <div class="btns"><button class="btn" data-act="pAnim" data-i18n="animate"></button><button class="btn alt" data-act="pReset" data-i18n="reset"></button><button class="btn alt" data-act="export" data-i18n="export"></button><button class="btn alt" data-act="csv" data-i18n="csv"></button></div>
+    <div class="chartbox big"><canvas id="pvB"></canvas></div>
+  </div>
+  <h2>T–S</h2>
+  <div class="card"><div class="chartbox"><canvas id="tsC"></canvas></div><p class="mute" data-i18n="tsNote"></p></div>
+</section>
+
+<section id="v-real" hidden>
+  <h2 data-i18n="n_real"></h2>
+  <div class="two">
+    <div class="card"><div class="fld"><label for="rGas" data-i18n="rGas"></label><select id="rGas"><option value="He">He</option><option value="N2">N₂</option><option value="CO2" selected>CO₂</option><option value="H2O">H₂O</option></select></div>
+      <div id="rFields" class="grid"></div><p class="eq" dir="ltr">(P + a·n²/V²)(V − n·b) = nRT</p>
+      <div class="err" id="err_real" role="alert" hidden></div><div id="rOut" class="kvs"></div></div>
+    <div class="card"><div class="chartbox"><canvas id="rvC"></canvas></div></div>
+  </div>
+  <p class="mute" data-i18n="realNote"></p>
+</section>
+
+<section id="v-calc" hidden>
+  <h2 data-i18n="n_calc"></h2>
+  <div class="card"><h3 data-i18n="fTitle"></h3><div id="formulas"></div><p class="mute" data-i18n="assump"></p></div>
+  <div class="card"><h3 data-i18n="stepsTitle"></h3><pre id="steps" class="eq" dir="ltr"></pre></div>
+</section>
+
+<section id="v-about" hidden>
+  <h2>ThermoLab</h2>
+  <div class="card"><p data-i18n="aboutT"></p><ul id="aboutList"></ul><p data-i18n="built"></p><p class="mute" data-i18n="disc"></p></div>
+  <div class="card"><h3 data-i18n="pInfo"></h3><table class="info"><tr><th data-i18n="iInst"></th><td>[University / Faculty of Sciences]</td></tr><tr><th data-i18n="iCourse"></th><td>[Thermodynamics, Semester ...]</td></tr><tr><th data-i18n="iTeam"></th><td>[Student names]</td></tr><tr><th data-i18n="iSup"></th><td>[Prof. ...]</td></tr><tr><th data-i18n="iYear"></th><td>[2026 / 2027]</td></tr></table></div>
+  <div class="card"><h3 data-i18n="refsT"></h3><ol class="refs"><li>Y. A. Çengel, M. A. Boles, <i>Thermodynamics: An Engineering Approach</i>, McGraw-Hill.</li><li>H. B. Callen, <i>Thermodynamics and an Introduction to Thermostatistics</i>, Wiley, 2nd ed.</li><li>P. Atkins, J. de Paula, <i>Physical Chemistry</i>, Oxford University Press.</li><li>M. W. Zemansky, R. H. Dittman, <i>Heat and Thermodynamics</i>, McGraw-Hill.</li><li>NIST CODATA: molar gas constant R = 8.314462618 J/(mol·K).</li></ol></div>
+</section>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="script.js"></script>
+<script src="features.js"></script>
+<script src="cycles.js"></script>
+</body>
+</html>
