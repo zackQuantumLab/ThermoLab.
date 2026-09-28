@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ThermoLab logo">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f5fbf"/><stop offset="1" stop-color="#0b2f66"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="url(#g)"/>
+<rect x="15" y="9" width="8" height="34" rx="4" fill="#fff"/><circle cx="19" cy="46" r="8" fill="#fff"/>
+<rect x="17.5" y="24" width="3" height="20" rx="1.5" fill="#f97316"/><circle cx="19" cy="46" r="5" fill="#f97316"/>
+<path d="M31 46 L31 14 M31 46 L57 46" stroke="#cfe0fa" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M35 22 C42 20 48 26 53 27 C50 33 46 37 40 39 C38 33 36 28 35 22 Z" fill="#f97316" fill-opacity=".85" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+</svg>
