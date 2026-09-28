@@ -14,6 +14,7 @@ Supported languages: **English, French, and Arabic (with full right-to-left layo
 - Ideal gas calculator (solve for P, V, T or n) with given values, formula, substitution and result; units Pa/kPa/bar/atm, m³/L, K/°C
 - **Six transformations:** isothermal, isobaric, isochoric, adiabatic (isentropic), **polytropic** (PVᵏ = const, any k) and **free expansion** (irreversible); monatomic γ = 5/3, diatomic γ = 7/5
 - **Cycles tab, 9 cycles animated in real time:** Otto, Diesel, Dual (Sabathé), Atkinson, Brayton (Joule), Stirling, Ericsson, Lenoir, and reversed Brayton (refrigerator / heat pump), plus Carnot in its own tab. Each shows live P-V and T-S diagrams, the cylinder, a stage table (W, Q, ΔU, ΔS per stage, highlighted as it plays), efficiency or COP, and the Carnot limit
+- **Real Engine tab:** crank-angle-resolved 4-stroke simulation over 720° (slider-crank piston motion, valve timing, Wiebe combustion, Woschni wall heat loss, variable γ(T), pumping loop, friction). Presets: petrol, sport petrol, turbo diesel, truck diesel, single-cylinder motorbike. Live P-θ and P-V (with pumping loop), IMEP/BMEP, power, torque, efficiencies vs the ideal cycle, BSFC, peak pressure
 - Animated P-V diagram, T-S diagram, PNG export
 - Carnot cycle simulator with Start / Pause / Reset, speed and timeline, stage indicator and animated energy-flow diagram
 - Formula panel and step-by-step substitution for the current process
@@ -54,6 +55,8 @@ thermolab/
 ├── style.css       themes, layout, RTL rules
 ├── script.js       Phys (physics engine), TR (translations), UI, charts
 ├── features.js     van der Waals, piston view, CSV export
+├── cycles.js       air-standard cycles (Otto, Diesel, ...)
+├── engine.js       real-engine simulation (crank angle, heat release, losses)
 ├── assets/logo.svg logo and favicon
 ├── tests/phys.test.js   run with: node tests/phys.test.js
 ├── LICENSE
