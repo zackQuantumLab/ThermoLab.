@@ -71,15 +71,6 @@ thermolab/
 - The choice is saved in `localStorage` (`thermolab-language`). On first visit the browser language (`fr`, `ar`, else `en`) is used.
 - **Adding a language:** add one object to `TR` with the same keys and one `<option>` to the `#lang` select. Equations are never translated.
 
-## How to Run
-Open `index.html` in a browser. (Chart.js and fonts load from CDNs, so an internet connection is needed the first time.) Or serve locally: `python3 -m http.server` and visit `http://localhost:8000`.
-
-## GitHub Pages Deployment
-1. Create a repository and push the contents of `thermolab/` to the `main` branch (with `index.html` at the root).
-2. In the repository go to **Settings → Pages**.
-3. Under **Source**, choose **Deploy from a branch**, select `main` and `/ (root)`, then Save.
-4. After a minute the site is live at `https://<username>.github.io/<repository>/`.
-
 ## Academic Context
 Fill in the *Project information* card in the About tab (institution, course, team, supervisor, year), and the table below when submitting.
 
